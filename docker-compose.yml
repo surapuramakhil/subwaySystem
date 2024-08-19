@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: subway_system_app
+    command: npm run dev
+    restart: always
+    ports:
+      - "${PORT:-3000}:3000"
+    depends_on:
+      - db
+      - neo4j
+    environment:
+      PORT: 3000
+      POSTGRES_URL: postgresql://subway_user:subway_password@db:5432/subway_system
+      NEO4J_URI: bolt://neo4j:7687
+      NEO4J_USER: neo4j
+      NEO4J_PASSWORD: password
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  db:
+    image: postgres:14
+    container_name: subway_system_db
+    restart: always
+    environment:
+      POSTGRES_DB: subway_system
+      POSTGRES_USER: subway_user
+      POSTGRES_PASSWORD: subway_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+
+  neo4j:
+    image: neo4j:5.22
+    container_name: subway_system_neo4j
+    restart: always
+    environment:
+      NEO4J_AUTH: neo4j/password
+      NEO4J_ACCEPT_LICENSE_AGREEMENT: "yes"
+      NEO4J_apoc_export_file_enabled: "true"
+      NEO4J_apoc_import_file_enabled: "true"
+      NEO4J_apoc_import_file_use__neo4j__config: "true"
+      NEO4J_PLUGINS: '["graph-data-science"]'
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - ./neo4j/data:/data
+      - ./neo4j/import:/import
+
+networks:
+  default:
+    name: subway_network

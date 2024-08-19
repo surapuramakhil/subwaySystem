@@ -1,0 +1,25 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRES_URL")
+}
+
+model Card {
+  id     String @id @default(uuid())
+  number String @unique
+  balance Float
+  rides  Ride[]
+}
+
+model Ride {
+  id           String    @id @default(uuid())
+  cardNumber   String
+  card         Card      @relation(fields: [cardNumber], references: [number])
+  entryStation String
+  exitStation  String?
+  fare         Float?
+  timestamp    DateTime  @default(now())
+}
