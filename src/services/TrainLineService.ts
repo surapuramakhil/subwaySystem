@@ -3,36 +3,39 @@ import { AppError } from '../utils/AppError';
 
 export class TrainLineService {
 
-  static async testCode() {
-    const session = neo4jDriver.session();
-    try {
-      const result = await session.writeTransaction(tx =>
-        tx.run(`
-        CALL gds.graph.list()
-        `)
-      );
-      console.log(JSON.stringify(result.records[0].toObject(), null, 2));
-
-    } finally {
-      await session.close();
-    }
-  }
-
   static async createGraphProjection() {
     const session = neo4jDriver.session();
     try {
-      await session.writeTransaction(tx =>
+      const existsResult = await session.readTransaction(tx =>
         tx.run(`
-          CALL gds.graph.project(
-            'subwayGraph',
-            'Station',
-            'CONNECTS_TO',
-            {
-              relationshipProperties: 'fare'
-            }
-          )
+          CALL gds.graph.exists('subwayGraph')
+          YIELD exists
+          RETURN exists
         `)
       );
+  
+      const graphExists = existsResult.records[0].get('exists');
+  
+      if (!graphExists) {
+        await session.writeTransaction(tx =>
+          tx.run(`
+            CALL gds.graph.project(
+              'subwayGraph',
+              'Station',
+              'CONNECTS_TO',
+              {
+                relationshipProperties: 'fare'
+              }
+            )
+          `)
+        );
+        console.log('Graph projection created successfully');
+      } else {
+        console.log('Graph projection already exists');
+      }
+    } catch (error) {
+      console.error('Error in createGraphProjection:', error);
+      throw error;
     } finally {
       await session.close();
     }
@@ -73,22 +76,69 @@ export class TrainLineService {
             relationshipWeightProperty: 'fare'
           })
           YIELD nodeIds, costs
-          RETURN gds.util.asNodes(nodeIds) as path, costs
+          WITH gds.util.asNodes(nodeIds) as path, costs
+          RETURN 
+            [node IN path | node.name] as stationNames,
+            CASE 
+              WHEN size(costs) > 1 THEN costs[1]
+              ELSE 0
+            END as totalFare
           `,
           { origin, destination }
         )
       );
-      
-      console.log(result);
-
+  
       if (result.records.length === 0) {
-        console.log(`No path found between ${origin} and ${destination}`);
-        throw new AppError(`No path found between ${origin} and ${destination}`, 404);
+        throw new Error('No route found');
+      }
+  
+      const path = result.records[0].get('stationNames');
+      let totalFare = result.records[0].get('totalFare');
+      
+      if (typeof totalFare === 'object' && totalFare !== null && 'toNumber' in totalFare) {
+        totalFare = totalFare.toNumber();
+      } else if (typeof totalFare === 'string') {
+        totalFare = parseFloat(totalFare);
+      } else if (typeof totalFare !== 'number') {
+        totalFare = 0; // Default to 0 if the value is unexpected
       }
 
-      const path = result.records[0].get('path').map((node: any) => node.properties.name);
-      const totalFare = result.records[0].get('costs')[result.records[0].get('costs').length - 1];
+  
       return { path, totalFare };
+    } finally {
+      await session.close();
+    }
+  }
+
+  async getLineFare(station: string): Promise<number> {
+    const session = neo4jDriver.session();
+    try {
+      const result = await session.readTransaction(tx =>
+        tx.run(
+          `
+          MATCH (s:Station {name: $station})-[r:CONNECTS_TO]-()
+          RETURN r.fare AS fare
+          LIMIT 1
+          `,
+          { station }
+        )
+      );
+  
+      if (result.records.length === 0) {
+        throw new AppError('Station not found or has no connections', 404);
+      }
+  
+      let fare = result.records[0].get('fare');
+      
+      if (typeof fare === 'object' && fare !== null && 'toNumber' in fare) {
+        fare = fare.toNumber();
+      } else if (typeof fare === 'string') {
+        fare = parseFloat(fare);
+      } else if (typeof fare !== 'number') {
+        throw new AppError('Invalid fare value', 500);
+      }
+  
+      return fare;
     } finally {
       await session.close();
     }

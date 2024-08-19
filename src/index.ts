@@ -19,22 +19,9 @@ process.on('SIGTERM', () => {
     });
 });
 
-// TrainLineService.createGraphProjection().then(() => {
-//     console.log('Graph projection created');
-//   }).catch(error => {
-//     console.error('Error creating graph projection:', error);
-//   });
-
-// TrainLineService.testCode().then(() => {
-//     console.log('Test code executed');
-//   } ).catch(error => {  
-//     console.error('Error executing test code:', error);
-//   }   );
-
-  // TrainLineService.getOptimalRoute1('Hoston','23rd').then(() => {
-  //   console.log('Test code executed');
-  // } ).catch(error => {  
-  //   console.error('Error executing test code:', error);
-  // }   );
-
+TrainLineService.createGraphProjection().then(() => {
+    console.log('Graph projection created');
+} ).catch((error) => {  
+    console.error('Error creating graph projection:', error);
+} );
 

@@ -12,16 +12,20 @@ export class RideService {
   }
 
   async startRide(cardNumber: string, station: string) {
-    const ride = await prisma.ride.create({
+
+    const fare = await this.trainLineService.getLineFare(station);
+
+    const updatedCard = await this.cardService.deductFare(cardNumber, fare);
+
+    await prisma.ride.create({
       data: {
         cardNumber,
         entryStation: station,
-      },
-      include: {
-        card: true,
+        fare: fare,
       },
     });
-    return ride.card.balance;
+
+    return updatedCard.balance;
   }
 
   async endRide(cardNumber: string, station: string) {
@@ -39,16 +43,21 @@ export class RideService {
       throw new Error('No active ride found');
     }
 
-    const { path, totalFare } = await this.trainLineService.getOptimalRoute(ride.entryStation, station);
-
     await prisma.ride.update({
       where: { id: ride.id },
       data: {
         exitStation: station,
-        fare: totalFare,
       },
     });
 
-    return this.cardService.deductFare(cardNumber, totalFare);
+    const card = await prisma.card.findUnique({
+      where: { number: cardNumber },
+    });
+
+    if (!card) {
+      throw new Error('Card not found');
+    }
+
+    return card.balance;
   }
 }

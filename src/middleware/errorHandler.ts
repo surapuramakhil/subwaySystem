@@ -1,7 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { AppError } from '../utils/AppError';
 
-//Todo: global error handler is not working expected - Express issue
+// This is Required to handle async errors in express (Express doesn't handle async errors by default)
+export const asyncHandler = (fn: Function) => (req: Request, res: Response, next: NextFunction) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+}
+
 export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   
     if (err instanceof AppError) {

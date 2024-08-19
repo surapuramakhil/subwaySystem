@@ -1,3 +1,4 @@
+import { asyncHandler } from './../middleware/errorHandler';
 import express from 'express';
 import { TrainLineController } from '../controllers/TrainLineController';
 import { CardController } from '../controllers/CardController';
@@ -8,12 +9,12 @@ const trainLineController = new TrainLineController();
 const cardController = new CardController();
 const rideController = new RideController();
 
-router.post('/train-line/', trainLineController.addTrainLine.bind(trainLineController));
-router.get('/route', trainLineController.getOptimalRoute.bind(trainLineController));
+router.post('/train-line/', asyncHandler(trainLineController.addTrainLine.bind(trainLineController)));
+router.get('/route', asyncHandler(trainLineController.getOptimalRoute.bind(trainLineController)));
 
-router.post('/card', cardController.createOrUpdateCard.bind(cardController));
+router.post('/card', asyncHandler(cardController.createOrUpdateCard.bind(cardController)));
 
-router.post('/station/:station/enter', rideController.startRide.bind(rideController));
-router.post('/station/:station/exit', rideController.endRide.bind(rideController));
+router.post('/station/:station/enter', asyncHandler(rideController.startRide.bind(rideController)));
+router.post('/station/:station/exit', asyncHandler(rideController.endRide.bind(rideController)));
 
 export default router;
