@@ -1,6 +1,6 @@
-import prisma from '../db/prismaClient';
 import { TrainLineService } from './TrainLineService';
 import { CardService } from './CardService';
+import { prisma, withTransaction } from '../db/prismaClient';
 
 export class RideService {
   private trainLineService: TrainLineService;
@@ -13,19 +13,21 @@ export class RideService {
 
   async startRide(cardNumber: string, station: string) {
 
-    const fare = await this.trainLineService.getLineFare(station);
+    return withTransaction(async (tx) => {
+        const fare = await this.trainLineService.getLineFare(station);
 
-    const updatedCard = await this.cardService.deductFare(cardNumber, fare);
+        const updatedCard = await this.cardService.deductFare(cardNumber, fare);
 
-    await prisma.ride.create({
-      data: {
-        cardNumber,
-        entryStation: station,
-        fare: fare,
-      },
-    });
+        await prisma.ride.create({
+          data: {
+            cardNumber,
+            entryStation: station,
+            fare: fare,
+          },
+        });
 
-    return updatedCard.balance;
+        return updatedCard.balance;
+      });
   }
 
   async endRide(cardNumber: string, station: string) {

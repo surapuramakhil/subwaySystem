@@ -65,11 +65,24 @@ yes
 
 #### Running Challenge 1
 
+calling following postmant api's
+1. create trainline 1
+2. create trainline 2
+
+to test call Get Rounte post man API
+
 #### Running Challenge 2
+
+1. Create trainline previously already mandates of fare param in body.
+2. create Card API
+3. once card created - call Station Enter API 
+4. Station Exit.
 
 ## Is your code organized and well thought-out?
 
-yes, code is well thoughtout, following standard practices.
+yes, code is well thoughtout, following standard practices. It is shouuld it terms of both features scaling and data scaling.
+
+when it comes to rides, Fare and cards - transactions are used efficinetly used when its requried.
 
 ## Would it be easy to extend your code to a more complex solution with more requirements?
 
@@ -92,185 +105,6 @@ To extend the system, you can:
 Performed Manual integration test using postman
 
 postman API's JSON file - ./GetParkerCoding.postman_collection.json
-
-``` JSON
-{
-	"info": {
-		"_postman_id": "d01cc01b-a9cc-4888-aefd-0d29fcb355f8",
-		"name": "GetParker Coding",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27041425"
-	},
-	"item": [
-		{
-			"name": "Subway Challenge",
-			"item": [
-				{
-					"name": "create trailline 1",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\"stations\": [\"Canal\", \"Houston\", \"Christopher\", \"14th\"],\n\n\"name\": \"1\",\n\n\"fare\": 2.75\n\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/train-line",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"train-line"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create trailline E",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"stations\": [\n        \"Spring\",\n        \"West 4th\",\n        \"14th\",\n        \"23rd\"\n    ],\n    \"name\": \"E\",\n    \"fare\": 1.75\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/train-line",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"train-line"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Route",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/route?origin=Hoston&destination=23rd",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"route"
-							],
-							"query": [
-								{
-									"key": "origin",
-									"value": "Hoston"
-								},
-								{
-									"key": "destination",
-									"value": "23rd"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "create Card",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\"number\": \"1234\",\n\n\"amount\": 10.0\n\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/card",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"card"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Station Enter",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n\n\"card_number\": \"1234\"\n\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:3000/station/:station/enter",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"station",
-								":station",
-								"enter"
-							],
-							"variable": [
-								{
-									"key": "station",
-									"value": "Houston",
-									"type": "string"
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Station Exit",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": ""
-						}
-					},
-					"response": []
-				}
-			]
-		}
-	]
-}
-```
 
 
 # Subway System Implementation Challenge

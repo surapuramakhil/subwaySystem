@@ -1,4 +1,5 @@
-import prisma from '../db/prismaClient';
+import { prisma } from "../db/prismaClient";
+
 
 export class CardService {
 
