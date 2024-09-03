@@ -1,0 +1,456 @@
+{
+	"info": {
+		"_postman_id": "0ffdff1f-2d78-442e-a181-8a203f0d3410",
+		"name": "First Wave AI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27041425"
+	},
+	"item": [
+		{
+			"name": "Sales Hero Backend",
+			"item": [
+				{
+					"name": "Sales FAQ's",
+					"item": [
+						{
+							"name": "Create FAQ",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"businessId\":\"472124b7-c9bc-4632-b3e5-596819c60868\",\n    \"question\": \"salesFAQ question3\",\n    \"answer\": \"salesFAQ answer3\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8081/faqs/",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"faqs",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getFAQs",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8081/faqs/472124b7-c9bc-4632-b3e5-596819c60868",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"faqs",
+										"472124b7-c9bc-4632-b3e5-596819c60868"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update FAQ",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"businessId\":\"472124b7-c9bc-4632-b3e5-596819c60868\",\n    \"question\": \"new salesFAQ question2\",\n    \"answer\": \"new salesFAQ answer2\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8081/faqs/7b1a0833-2897-4c54-b66f-35b3c0d76336",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"faqs",
+										"7b1a0833-2897-4c54-b66f-35b3c0d76336"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "delete FAQ",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8081/faqs/702a3403-d377-4167-a933-b236646c9564",
+									"host": [
+										"localhost"
+									],
+									"port": "8081",
+									"path": [
+										"faqs",
+										"702a3403-d377-4167-a933-b236646c9564"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "downlaod templage",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/download-template",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"download-template"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "upload leads",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/Users/akhilsurapuram/firstwaveai/sales-hero-backend/leadUplaodTest.csv"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8081/upload-leads/472124b7-c9bc-4632-b3e5-596819c60868",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"upload-leads",
+								"472124b7-c9bc-4632-b3e5-596819c60868"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get leads paginated",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/leads/472124b7-c9bc-4632-b3e5-596819c60868",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"leads",
+								"472124b7-c9bc-4632-b3e5-596819c60868"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "udpate Sales Agent",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "salesSops",
+									"type": "file",
+									"src": "/Users/akhilsurapuram/Downloads/harrier-main-brochure-16may-2024.pdf"
+								},
+								{
+									"key": "businessName",
+									"value": "businessName",
+									"type": "text"
+								},
+								{
+									"key": "productName",
+									"value": "ProductName",
+									"type": "text"
+								},
+								{
+									"key": "salesOutroText",
+									"value": "OutroText",
+									"type": "text"
+								},
+								{
+									"key": "salesActionText",
+									"value": "ActionText",
+									"type": "text"
+								},
+								{
+									"key": "salesPitchText",
+									"value": "PitchText",
+									"type": "text"
+								},
+								{
+									"key": "existingSops",
+									"value": "[\"https://nyc3.digitaloceanspaces.com/do-fwai-bucket/business_files/472124b7-c9bc-4632-b3e5-596819c60868/1722744676068-0802 - SVT Final.pdf\",\"https://nyc3.digitaloceanspaces.com/do-fwai-bucket/business_files/472124b7-c9bc-4632-b3e5-596819c60868/1722744676071-Add audit table settings by your-coworker Â· Pull Request #1 Â· woven-reviews_audits-node-react-surapuramakhil-77613.pdf\"]",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8081/business-info/472124b7-c9bc-4632-b3e5-596819c60868",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"business-info",
+								"472124b7-c9bc-4632-b3e5-596819c60868"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create Sales Agent",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "salesSops",
+									"type": "file",
+									"src": "/Users/akhilsurapuram/Downloads/harrier-main-brochure-16may-2024.pdf"
+								},
+								{
+									"key": "businessName",
+									"value": "businessName",
+									"type": "text"
+								},
+								{
+									"key": "productName",
+									"value": "ProductName",
+									"type": "text"
+								},
+								{
+									"key": "salesOutroText",
+									"value": "OutroText",
+									"type": "text"
+								},
+								{
+									"key": "salesActionText",
+									"value": "ActionText",
+									"type": "text"
+								},
+								{
+									"key": "salesPitchText",
+									"value": "PitchText",
+									"type": "text"
+								},
+								{
+									"key": "existingSops",
+									"value": "[\"https://nyc3.digitaloceanspaces.com/do-fwai-bucket/business_files/472124b7-c9bc-4632-b3e5-596819c60868/1722744676068-0802 - SVT Final.pdf\",\"https://nyc3.digitaloceanspaces.com/do-fwai-bucket/business_files/472124b7-c9bc-4632-b3e5-596819c60868/1722744676071-Add audit table settings by your-coworker Â· Pull Request #1 Â· woven-reviews_audits-node-react-surapuramakhil-77613.pdf\"]",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8081/business-info/472124b7-c9bc-4632-b3e5-596819c60868",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"business-info",
+								"472124b7-c9bc-4632-b3e5-596819c60868"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create Sales Agent - duplicate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "salesSops",
+									"type": "file",
+									"src": "/Users/akhilsurapuram/Downloads/harrier-main-brochure-16may-2024.pdf"
+								},
+								{
+									"key": "businessName",
+									"value": "businessName",
+									"type": "text"
+								},
+								{
+									"key": "productName",
+									"value": "ProductName",
+									"type": "text"
+								},
+								{
+									"key": "salesOutroText",
+									"value": "OutroText",
+									"type": "text"
+								},
+								{
+									"key": "salesActionText",
+									"value": "ActionText",
+									"type": "text"
+								},
+								{
+									"key": "salesPitchText",
+									"value": "PitchText",
+									"type": "text"
+								},
+								{
+									"key": "existingSops",
+									"value": "[\"https://nyc3.digitaloceanspaces.com/do-fwai-bucket/business_files/472124b7-c9bc-4632-b3e5-596819c60868/1722744676068-0802 - SVT Final.pdf\",\"https://nyc3.digitaloceanspaces.com/do-fwai-bucket/business_files/472124b7-c9bc-4632-b3e5-596819c60868/1722744676071-Add audit table settings by your-coworker Â· Pull Request #1 Â· woven-reviews_audits-node-react-surapuramakhil-77613.pdf\"]",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8081/business-info/472124b7-c9bc-4632-b3e5-596819c60868",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"business-info",
+								"472124b7-c9bc-4632-b3e5-596819c60868"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get Sales Agent",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8081/business-info/472124b7-c9bc-4632-b3e5-596819c60868",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"business-info",
+								"472124b7-c9bc-4632-b3e5-596819c60868"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "initiate campaign",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8081/initiate-campaign/f1c41865-e640-4cc4-bab4-0490ef280822",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"initiate-campaign",
+								"f1c41865-e640-4cc4-bab4-0490ef280822"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "generateFAQ",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/generateFAQ",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"generateFAQ"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "trigger Call",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/triggerOutboundCall",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"triggerOutboundCall"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
