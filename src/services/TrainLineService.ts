@@ -24,7 +24,7 @@ export class TrainLineService {
               'Station',
               'CONNECTS_TO',
               {
-                relationshipProperties: 'fare'
+                relationshipProperties: ['fare', 'weight']
               }
             )
           `)
@@ -41,6 +41,7 @@ export class TrainLineService {
     }
   }
   
+  
   async addTrainLine(name: string, stations: string[], fare: number): Promise<void> {
     const session = neo4jDriver.session();
     try {
@@ -51,7 +52,7 @@ export class TrainLineService {
           MERGE (s1:Station {name: $stations[i]})
           MERGE (s2:Station {name: $stations[i+1]})
           MERGE (s1)-[r:CONNECTS_TO]->(s2)
-          ON CREATE SET r.lines = [$name], r.fare = $fare , r.weight = 1
+          ON CREATE SET r.lines = [$name], r.fare = $fare, r.weight = 1
           ON MATCH SET r.lines = CASE WHEN NOT $name IN r.lines THEN r.lines + $name ELSE r.lines END,
                        r.fare = CASE WHEN $fare < r.fare OR r.fare IS NULL THEN $fare ELSE r.fare END
           `,
