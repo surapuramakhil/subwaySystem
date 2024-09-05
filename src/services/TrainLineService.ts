@@ -51,7 +51,7 @@ export class TrainLineService {
           MERGE (s1:Station {name: $stations[i]})
           MERGE (s2:Station {name: $stations[i+1]})
           MERGE (s1)-[r:CONNECTS_TO]->(s2)
-          ON CREATE SET r.lines = [$name], r.fare = $fare
+          ON CREATE SET r.lines = [$name], r.fare = $fare , r.weight = 1
           ON MATCH SET r.lines = CASE WHEN NOT $name IN r.lines THEN r.lines + $name ELSE r.lines END,
                        r.fare = CASE WHEN $fare < r.fare OR r.fare IS NULL THEN $fare ELSE r.fare END
           `,
@@ -73,7 +73,7 @@ export class TrainLineService {
           CALL gds.shortestPath.dijkstra.stream('subwayGraph', {
             sourceNode: start,
             targetNode: end,
-            relationshipWeightProperty: 'fare'
+            relationshipWeightProperty: 'weight'
           })
           YIELD nodeIds, costs
           WITH gds.util.asNodes(nodeIds) as path, costs
