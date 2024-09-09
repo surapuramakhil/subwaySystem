@@ -2,6 +2,9 @@
 
 This project implements a RESTful API for managing a subway system, including train lines, stations, and optimal route calculations.
 
+![Subway System](<Screenshot 2024-09-09 at 6.54.43 AM.png>)
+Subway System
+
 ## Technologies Used
 
 - Node.js
